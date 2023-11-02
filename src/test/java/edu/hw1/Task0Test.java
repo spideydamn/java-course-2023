@@ -19,6 +19,6 @@ public class Task0Test {
 
         //then
         String logMessage = logOutput.toString();
-        assertEquals(logMessage.substring(logMessage.length() - 18, logMessage.length() - 5), "Hello, world!");
+        assertEquals("Hello, world!", logMessage.substring(logMessage.length() - 17, logMessage.length() - 5));
     }
 }
