@@ -8,7 +8,6 @@ public class Task3 {
     private Task3() {}
 
     static Random rnd = new Random();
-    private final static Logger LOGGER = LogManager.getLogger();
     final static int FAILURE_PROBABILITY = 4;
 
     static void setRandomSeed(int seed) { // for testing
@@ -53,7 +52,7 @@ public class Task3 {
                     return;
                 } catch (Exception e) {
                     this.cause = e;
-                    LOGGER.info(e.getMessage());
+                    System.out.println(e.getMessage());
                 }
             }
         }
@@ -62,12 +61,12 @@ public class Task3 {
     static class StableConnection implements Connection {
         @Override
         public void execute(String command) {
-            LOGGER.info(String.format("Stable connection established. Sent command \"%s\"", command));
+            System.out.printf("Stable connection established. Sent command \"%s\"%n", command);
         }
 
         @Override
         public void close() {
-            LOGGER.info("Stable connection closed");
+            System.out.println("Stable connection closed");
         }
     }
 
@@ -77,12 +76,12 @@ public class Task3 {
             if (rnd.nextInt() % FAILURE_PROBABILITY == 0) {
                 throw new ConnectionException("Faulty connection failed");
             }
-            LOGGER.info(String.format("Faulty connection established. Sent command \"%s\"", command));
+            System.out.printf("Faulty connection established. Sent command \"%s\"%n", command);
         }
 
         @Override
         public void close() {
-            LOGGER.info("Faulty connection closed");
+            System.out.println("Faulty connection closed");
         }
     }
 

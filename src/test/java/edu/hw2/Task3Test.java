@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Task3Test {
     static ByteArrayOutputStream logOutput = new ByteArrayOutputStream();
@@ -23,7 +24,7 @@ public class Task3Test {
 
         //then
         String logMessage = logOutput.toString();
-        assertEquals("Stable connection established. Sent command \"command\"", logMessage.substring(logMessage.length() - 156, logMessage.length() - 103));
+        assertTrue(logMessage.contains("Stable connection established. Sent command \"command\""));
     }
 
     @Test
@@ -32,7 +33,6 @@ public class Task3Test {
         // given
         System.setOut(new PrintStream(logOutput));
         Task3.setRandomSeed(3);
-        boolean wasException = false;
 
         // when
         Task3.DefaultConnectionManager manager = new Task3.DefaultConnectionManager();
@@ -41,7 +41,7 @@ public class Task3Test {
 
         //then
         String logMessage = logOutput.toString();
-        assertEquals("Faulty connection failed", logMessage.substring(logMessage.length() - 29, logMessage.length() - 5));
+        assertTrue(logMessage.contains("Faulty connection failed"));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class Task3Test {
 
         //then
         String logMessage = logOutput.toString();
-        assertEquals("Faulty connection established. Sent command \"command\"", logMessage.substring(logMessage.length() - 156, logMessage.length() - 103));
+        assertTrue(logMessage.contains("Faulty connection established. Sent command \"command\""));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class Task3Test {
 
         //then
         String logMessage = logOutput.toString();
-        assertEquals("Faulty connection failed", logMessage.substring(logMessage.length() - 29, logMessage.length() - 5));
+        assertTrue(logMessage.contains("Faulty connection failed"));
     }
 
     @Test
@@ -93,6 +93,6 @@ public class Task3Test {
 
         //then
         String logMessage = logOutput.toString();
-        assertEquals("Stable connection established. Sent command \"apt update && apt upgrade -y\"", logMessage.substring(logMessage.length() - 177, logMessage.length() - 103));
+        assertTrue(logMessage.contains("Stable connection established. Sent command \"apt update && apt upgrade -y\""));
     }
 }
