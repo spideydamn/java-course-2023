@@ -120,11 +120,22 @@ public class Task1Test {
         animalList.add(new Task1.Animal("vacok", Task1.Animal.Type.BIRD, Task1.Animal.Sex.F, 12, 3, 2, false));
         animalList.add(new Task1.Animal("mikukakuliris", Task1.Animal.Type.DOG, Task1.Animal.Sex.M, 12, 7, 6, false));
 
+        List<Task1.Animal> animalList2 = new ArrayList<>();
+        animalList2.add(new Task1.Animal("aboba", Task1.Animal.Type.FISH, Task1.Animal.Sex.M, 12, 2, 3, false));
+        animalList2.add(new Task1.Animal("tarakanus", Task1.Animal.Type.CAT, Task1.Animal.Sex.M, 12, 6, 7, false));
+        animalList2.add(new Task1.Animal("gigabituson", Task1.Animal.Type.SPIDER, Task1.Animal.Sex.F, 12, 1, 1, false));
+        animalList2.add(new Task1.Animal("klarkent", Task1.Animal.Type.BIRD, Task1.Animal.Sex.M, 12, 4, 5, false));
+        animalList2.add(new Task1.Animal("voleyboleydubdibub", Task1.Animal.Type.CAT, Task1.Animal.Sex.F, 12, 5, 4, false));
+        animalList2.add(new Task1.Animal("vacok", Task1.Animal.Type.BIRD, Task1.Animal.Sex.F, 12, 3, 2, false));
+        animalList2.add(new Task1.Animal("mikukakuliris", Task1.Animal.Type.DOG, Task1.Animal.Sex.M, 12, 7, 6, false));
+
         // when
         var frequentSex = Task1.getFrequentSex(animalList);
+        var frequentSex2 = Task1.getFrequentSex(animalList2);
 
         //then
         assertEquals(Task1.Animal.Sex.F, frequentSex);
+        assertEquals(Task1.Animal.Sex.M, frequentSex2);
     }
 
     @Test
@@ -609,12 +620,12 @@ public class Task1Test {
         var errors = Task1.stringFindErrors(animalList);
 
         //then
-        assertEquals("the animal's height is incorrect, the animal's age is incorrect, ", errors.get("aboba"));
-        assertEquals("animal type is null, ", errors.get("tarakanus"));
-        assertEquals("the animal's age is incorrect, the animal's weight is incorrect, ", errors.get("gigabituson"));
-        assertEquals("the animal's height is incorrect, the animal's weight is incorrect, ", errors.get("klarkent"));
+        assertEquals("the animal's height is incorrect, the animal's age is incorrect", errors.get("aboba"));
+        assertEquals("animal type is null", errors.get("tarakanus"));
+        assertEquals("the animal's age is incorrect, the animal's weight is incorrect", errors.get("gigabituson"));
+        assertEquals("the animal's height is incorrect, the animal's weight is incorrect", errors.get("klarkent"));
         assertEquals("", errors.get("voleyboleydubdibub"));
-        assertEquals("animal sex is null, the animal's age is incorrect, ", errors.get("vacok"));
-        assertEquals("animal type is null, the animal's age is incorrect, the animal's weight is incorrect, ", errors.get("mikukakuliris"));
+        assertEquals("animal sex is null, the animal's age is incorrect", errors.get("vacok"));
+        assertEquals("animal type is null, the animal's age is incorrect, the animal's weight is incorrect", errors.get("mikukakuliris"));
     }
 }

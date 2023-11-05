@@ -15,100 +15,6 @@ public class Task1 {
     private Task1() {
     }
 
-    public record Animal(
-        String name,
-        Type type,
-        Sex sex,
-        int age,
-        int height,
-        int weight,
-        boolean bites
-    ) {
-        public enum Type {
-            CAT, DOG, BIRD, FISH, SPIDER
-        }
-
-        public enum Sex {
-            M, F
-        }
-
-        @SuppressWarnings("MagicNumber")
-        public int paws() {
-            return switch (type) {
-                case CAT, DOG -> 4;
-                case BIRD -> 2;
-                case FISH -> 0;
-                case SPIDER -> 8;
-            };
-        }
-    }
-
-    public record ValidationError(String field) {
-    }
-
-    public static class CompByHeight implements Comparator<Animal> {
-        @Override
-        public int compare(Animal o1, Animal o2) {
-            return o1.height - o2.height;
-        }
-    }
-
-    public static class CompByWeight implements Comparator<Animal> {
-        @Override
-        public int compare(Animal o1, Animal o2) {
-            return o1.weight - o2.weight;
-        }
-    }
-
-    public static class CompByAge implements Comparator<Animal> {
-        @Override
-        public int compare(Animal o1, Animal o2) {
-            return o2.age - o1.age;
-        }
-    }
-
-    public static class CompBySex implements Comparator<Animal> {
-        private static int determineSex(Animal elem) {
-            Animal.Sex[] sexes = {Animal.Sex.F, Animal.Sex.M};
-            for (int i = 0; i < 2; ++i) {
-                if (sexes[i] == elem.sex) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-        @Override
-        public int compare(Animal o1, Animal o2) {
-            return determineSex(o1) - determineSex(o2);
-        }
-    }
-
-    public static class CompByType implements Comparator<Animal> {
-        private static int determineType(Animal elem) {
-            Animal.Type[] types =
-                {Animal.Type.CAT, Animal.Type.DOG, Animal.Type.BIRD, Animal.Type.FISH, Animal.Type.SPIDER};
-            for (int i = 0; i < 2; ++i) {
-                if (types[i] == elem.type) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-        @Override
-        public int compare(Animal o1, Animal o2) {
-            return determineType(o1) - determineType(o2);
-        }
-    }
-
-    public static class CompByName implements Comparator<Animal> {
-        @Override
-        public int compare(Animal o1, Animal o2) {
-            return o1.name.compareTo(o2.name);
-        }
-    }
-
     public static List<Animal> sortByHeight(List<Animal> list) {
         list.sort(new CompByHeight());
         return list;
@@ -224,6 +130,7 @@ public class Task1 {
         return animalList;
     }
 
+    @SuppressWarnings("MagicNumber")
     public static List<Animal> getBitesHigher100(List<Animal> list) {
         List<Task1.Animal> animalList = new ArrayList<>();
         for (Animal animal : list) {
@@ -308,6 +215,7 @@ public class Task1 {
         return heaviestFish;
     }
 
+    @SuppressWarnings("MagicNumber")
     public static Map<String, Set<ValidationError>> findErrors(List<Animal> list) {
         Map<String, Set<ValidationError>> errorsMap = new HashMap<>();
         for (Animal animal : list) {
@@ -339,8 +247,105 @@ public class Task1 {
             for (ValidationError error : entry.getValue()) {
                 animalErrors.append(error.field).append(", ");
             }
+            if (!animalErrors.toString().isEmpty()) {
+                animalErrors = new StringBuilder(animalErrors.substring(0, animalErrors.length() - 2));
+            }
             stringErrorsMap.put(entry.getKey(), animalErrors.toString());
         }
         return stringErrorsMap;
+    }
+
+    public record Animal(
+        String name,
+        Type type,
+        Sex sex,
+        int age,
+        int height,
+        int weight,
+        boolean bites
+    ) {
+        public enum Type {
+            CAT, DOG, BIRD, FISH, SPIDER
+        }
+
+        public enum Sex {
+            M, F
+        }
+
+        @SuppressWarnings("MagicNumber")
+        public int paws() {
+            return switch (type) {
+                case CAT, DOG -> 4;
+                case BIRD -> 2;
+                case FISH -> 0;
+                case SPIDER -> 8;
+            };
+        }
+    }
+
+    public record ValidationError(String field) {
+    }
+
+    public static class CompByHeight implements Comparator<Animal> {
+        @Override
+        public int compare(Animal o1, Animal o2) {
+            return o1.height - o2.height;
+        }
+    }
+
+    public static class CompByWeight implements Comparator<Animal> {
+        @Override
+        public int compare(Animal o1, Animal o2) {
+            return o1.weight - o2.weight;
+        }
+    }
+
+    public static class CompByAge implements Comparator<Animal> {
+        @Override
+        public int compare(Animal o1, Animal o2) {
+            return o2.age - o1.age;
+        }
+    }
+
+    public static class CompBySex implements Comparator<Animal> {
+        private static int determineSex(Animal elem) {
+            Animal.Sex[] sexes = {Animal.Sex.F, Animal.Sex.M};
+            for (int i = 0; i < 2; ++i) {
+                if (sexes[i] == elem.sex) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        @Override
+        public int compare(Animal o1, Animal o2) {
+            return determineSex(o1) - determineSex(o2);
+        }
+    }
+
+    public static class CompByType implements Comparator<Animal> {
+        private static int determineType(Animal elem) {
+            Animal.Type[] types =
+                {Animal.Type.CAT, Animal.Type.DOG, Animal.Type.BIRD, Animal.Type.FISH, Animal.Type.SPIDER};
+            for (int i = 0; i < 2; ++i) {
+                if (types[i] == elem.type) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        @Override
+        public int compare(Animal o1, Animal o2) {
+            return determineType(o1) - determineType(o2);
+        }
+    }
+
+    public static class CompByName implements Comparator<Animal> {
+        @Override
+        public int compare(Animal o1, Animal o2) {
+            return o1.name.compareTo(o2.name);
+        }
     }
 }
