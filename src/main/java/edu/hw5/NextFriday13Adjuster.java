@@ -8,7 +8,9 @@ import java.time.temporal.TemporalAdjuster;
 
 public class NextFriday13Adjuster implements TemporalAdjuster {
     @Override
+    @SuppressWarnings("MagicNumber")
     public Temporal adjustInto(Temporal temporal) {
+        Temporal temp = temporal;
         int fieldDayOfWeek = temporal.get(ChronoField.DAY_OF_WEEK);
         DayOfWeek dayOfWeek = DayOfWeek.of(fieldDayOfWeek);
 
@@ -26,12 +28,12 @@ public class NextFriday13Adjuster implements TemporalAdjuster {
         } else if (DayOfWeek.SATURDAY.equals(dayOfWeek)) {
             daysToAdd = 6;
         }
-        temporal = temporal.plus(daysToAdd, ChronoUnit.DAYS);
+        temp = temp.plus(daysToAdd, ChronoUnit.DAYS);
 
-        while (temporal.get(ChronoField.DAY_OF_MONTH) != 13) {
-            temporal = temporal.plus(7, ChronoUnit.DAYS);
+        while (temp.get(ChronoField.DAY_OF_MONTH) != 13) {
+            temp = temp.plus(7, ChronoUnit.DAYS);
         }
 
-        return temporal;
+        return temp;
     }
 }

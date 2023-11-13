@@ -2,7 +2,6 @@ package edu.hw5;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjuster;
 import java.util.ArrayList;
 
@@ -14,7 +13,7 @@ public class Task2 {
             return null;
         }
         TemporalAdjuster adjuster = new NextFriday13Adjuster();
-        return (LocalDate)adjuster.adjustInto(localDate);
+        return (LocalDate) adjuster.adjustInto(localDate);
     }
 
     public static LocalDate[] getFridays13(int year) {
@@ -22,7 +21,7 @@ public class Task2 {
             return null;
         }
         ArrayList<LocalDate> listAns = new ArrayList<>();
-        LocalDate currentDay = LocalDate.of(year , Month.JANUARY , 1);
+        LocalDate currentDay = LocalDate.of(year, Month.JANUARY, 1);
         while (currentDay.getYear() == year) {
             currentDay = getNextFriday13(currentDay);
             listAns.add(currentDay);
