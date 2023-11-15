@@ -7,10 +7,10 @@ public class ConsoleHangmanGame {
     private ConsoleHangmanGame() {}
 
     private static final int ALPHABET_SIZE = 26;
+    private static final boolean[] CHECKED_LETTERS = new boolean[ALPHABET_SIZE];
+    private static String guessWord;
     private static int attempts;
     private static int maxAttempts;
-    private static String guessWord;
-    private static final boolean[] CHECKED_LETTERS = new boolean[ALPHABET_SIZE];
     private static boolean isEnded = false;
 
     public static void reload(int theMaxAttempts, String theGuessWord) {
@@ -21,12 +21,10 @@ public class ConsoleHangmanGame {
         Arrays.fill(CHECKED_LETTERS, false);
     }
 
-    // getters:
     public static int getAttempts() {
         return attempts;
     }
 
-    // checkers:
     public static boolean isEnded() {
         return isEnded;
     }
@@ -42,18 +40,17 @@ public class ConsoleHangmanGame {
         return ('a' <= letter.charAt(0) && letter.charAt(0) <= 'z');
     }
 
-    // gaming features:
     public static void tryGuess(String input) {
         char letter;
         if (isLetter(input)) {
             letter = input.charAt(0);
         } else {
-            System.out.printf("Incorrect input. \"%s\" is not a letter. Try again\n\n", input);
+            sendIncorrectInputMessage(input);
             return;
         }
 
         if (thisLetterWasAsked(letter)) {
-            System.out.printf("You asked for the letter \"%c\", try another\n\n", letter);
+            sendRepeatLetterMessage(letter);
         } else {
             checkTheLetter(letter);
         }
@@ -63,14 +60,14 @@ public class ConsoleHangmanGame {
         CHECKED_LETTERS[letter - 'a'] = true;
         if (guessWord.indexOf(letter) == -1) {
             attempts++;
-            System.out.printf("Missed, mistake %d out of %d.\n\n", attempts, maxAttempts);
+            sendMistakeMessage();
             stateOutput();
             if (attempts == maxAttempts) {
                 endGame();
             }
             return;
         }
-        System.out.print("Hit!\n\n");
+        sendHitMessage();
         stateOutput();
     }
 
@@ -78,14 +75,13 @@ public class ConsoleHangmanGame {
         isEnded = true;
         for (int i = 0; i < guessWord.length(); ++i) {
             if (!thisLetterWasAsked(guessWord.charAt(i))) {
-                System.out.print("You lost!\n");
+                sendLostMessage();
                 return;
             }
         }
-        System.out.print("You won!\n");
+        sendWonMessage();
     }
 
-    // output:
     private static void stateOutput() {
         System.out.print("The word: ");
         int countGuessedLetters = 0;
@@ -101,5 +97,29 @@ public class ConsoleHangmanGame {
         if (countGuessedLetters == guessWord.length()) {
             endGame();
         }
+    }
+
+    private static void sendLostMessage() {
+        System.out.print("You lost!\n");
+    }
+
+    private static void sendWonMessage() {
+        System.out.print("You won!\n");
+    }
+
+    private static void sendHitMessage() {
+        System.out.print("Hit!\n\n");
+    }
+
+    private static void sendMistakeMessage() {
+        System.out.printf("Missed, mistake %d out of %d.\n\n", attempts, maxAttempts);
+    }
+
+    private static void sendIncorrectInputMessage(String input) {
+        System.out.printf("Incorrect input. \"%s\" is not a letter. Try again\n\n", input);
+    }
+
+    private static void sendRepeatLetterMessage(char letter) {
+        System.out.printf("You asked for the letter \"%c\", try another\n\n", letter);
     }
 }

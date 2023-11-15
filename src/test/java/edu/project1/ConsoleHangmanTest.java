@@ -10,32 +10,38 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.apache.commons.lang.StringUtils;
 
 public class ConsoleHangmanTest {
+    private static String[] createCommandFromLetters(String command) {
+        int commandLen = command.length();
+        String[] ans = new String[commandLen];
+        for (int i = 0; i < commandLen; ++i) {
+            ans[i] = command.substring(i, i + 1);
+        }
+        return ans;
+    }
+
+    private static Scanner createInputScanner(String[] command) {
+        StringBuilder commands = new StringBuilder();
+
+        for (String s : command) {
+            commands.append(s);
+            commands.append('\n');
+        }
+
+        return new Scanner(new ByteArrayInputStream(commands.toString().getBytes()));
+    }
+
     @Test
     @DisplayName("Тестирование чистой победы")
     void testClearWon() {
         // given
-        final int COMMANDS_NUMBER = 5;
-
         ByteArrayOutputStream logOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(logOutput));
 
-        String[] command = new String[COMMANDS_NUMBER];
-        command[0] = "s";
-        command[1] = "p";
-        command[2] = "o";
-        command[3] = "r";
-        command[4] = "t";
+        String[] command = createCommandFromLetters("sport");
 
-        String commands = "";
+        Scanner inputScanner = createInputScanner(command);
 
-        for (int i = 0; i < COMMANDS_NUMBER; ++i) {
-            commands += command[i];
-            commands += '\n';
-        }
-
-        Scanner inputScanner = new Scanner(new ByteArrayInputStream(commands.getBytes()));
-
-        Dictionary.setRandomSeed(1);
+        Dictionary.RANDOM.setSeed(1);
 
         //when
         ConsoleHangman.run(inputScanner);
@@ -54,32 +60,14 @@ public class ConsoleHangmanTest {
     @DisplayName("Тестирование не чистой победы")
     void testNotClearWon() {
         // given
-        final int COMMANDS_NUMBER = 9;
-
         ByteArrayOutputStream logOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(logOutput));
 
-        String[] command = new String[COMMANDS_NUMBER];
-        command[0] = "s";
-        command[1] = "a";
-        command[2] = "p";
-        command[3] = "b";
-        command[4] = "o";
-        command[5] = "c";
-        command[6] = "r";
-        command[7] = "d";
-        command[8] = "t";
+        String[] command = createCommandFromLetters("sapbocrdt");
 
-        String commands = "";
+        Scanner inputScanner = createInputScanner(command);
 
-        for (int i = 0; i < COMMANDS_NUMBER; ++i) {
-            commands += command[i];
-            commands += '\n';
-        }
-
-        Scanner inputScanner = new Scanner(new ByteArrayInputStream(commands.getBytes()));
-
-        Dictionary.setRandomSeed(1);
+        Dictionary.RANDOM.setSeed(1);
 
         //when
         ConsoleHangman.run(inputScanner);
@@ -99,28 +87,14 @@ public class ConsoleHangmanTest {
     @DisplayName("Тестирование чистого поражения")
     void testClearLose() {
         // given
-        final int COMMANDS_NUMBER = 5;
-
         ByteArrayOutputStream logOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(logOutput));
 
-        String[] command = new String[COMMANDS_NUMBER];
-        command[0] = "a";
-        command[1] = "b";
-        command[2] = "c";
-        command[3] = "d";
-        command[4] = "e";
+        String[] command = createCommandFromLetters("abcde");
 
-        String commands = "";
+        Scanner inputScanner = createInputScanner(command);
 
-        for (int i = 0; i < COMMANDS_NUMBER; ++i) {
-            commands += command[i];
-            commands += '\n';
-        }
-
-        Scanner inputScanner = new Scanner(new ByteArrayInputStream(commands.getBytes()));
-
-        Dictionary.setRandomSeed(1);
+        Dictionary.RANDOM.setSeed(1);
 
         //when
         ConsoleHangman.run(inputScanner);
@@ -139,32 +113,15 @@ public class ConsoleHangmanTest {
     @DisplayName("Тестирование не чистого поражения")
     void testNotClearLose() {
         // given
-        final int COMMANDS_NUMBER = 9;
 
         ByteArrayOutputStream logOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(logOutput));
 
-        String[] command = new String[COMMANDS_NUMBER];
-        command[0] = "s";
-        command[1] = "p";
-        command[2] = "o";
-        command[3] = "r";
-        command[4] = "a";
-        command[5] = "b";
-        command[6] = "c";
-        command[7] = "d";
-        command[8] = "e";
+        String[] command = createCommandFromLetters("sporabcde");
 
-        String commands = "";
+        Scanner inputScanner = createInputScanner(command);
 
-        for (int i = 0; i < COMMANDS_NUMBER; ++i) {
-            commands += command[i];
-            commands += '\n';
-        }
-
-        Scanner inputScanner = new Scanner(new ByteArrayInputStream(commands.getBytes()));
-
-        Dictionary.setRandomSeed(1);
+        Dictionary.RANDOM.setSeed(1);
 
         //when
         ConsoleHangman.run(inputScanner);
@@ -197,16 +154,9 @@ public class ConsoleHangmanTest {
         command[4] = "ж";
         command[5] = " ";
 
-        String commands = "";
+        Scanner inputScanner = createInputScanner(command);
 
-        for (int i = 0; i < COMMANDS_NUMBER; ++i) {
-            commands += command[i];
-            commands += '\n';
-        }
-
-        Scanner inputScanner = new Scanner(new ByteArrayInputStream(commands.getBytes()));
-
-        Dictionary.setRandomSeed(1);
+        Dictionary.RANDOM.setSeed(1);
 
         //when
         ConsoleHangman.run(inputScanner);
@@ -225,29 +175,14 @@ public class ConsoleHangmanTest {
     @DisplayName("Тестирование повторяющихся букв")
     void testRepeatingLetters() {
         // given
-        final int COMMANDS_NUMBER = 6;
-
         ByteArrayOutputStream logOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(logOutput));
 
-        String[] command = new String[COMMANDS_NUMBER];
-        command[0] = "a";
-        command[1] = "a";
-        command[2] = "a";
-        command[3] = "b";
-        command[4] = "b";
-        command[5] = "c";
+        String[] command = createCommandFromLetters("aaabbc");
 
-        String commands = "";
+        Scanner inputScanner = createInputScanner(command);
 
-        for (int i = 0; i < COMMANDS_NUMBER; ++i) {
-            commands += command[i];
-            commands += '\n';
-        }
-
-        Scanner inputScanner = new Scanner(new ByteArrayInputStream(commands.getBytes()));
-
-        Dictionary.setRandomSeed(1);
+        Dictionary.RANDOM.setSeed(1);
 
         //when
         ConsoleHangman.run(inputScanner);
@@ -278,16 +213,9 @@ public class ConsoleHangmanTest {
         command[3] = "d";
         command[4] = "give up";
 
-        String commands = "";
+        Scanner inputScanner = createInputScanner(command);
 
-        for (int i = 0; i < COMMANDS_NUMBER; ++i) {
-            commands += command[i];
-            commands += '\n';
-        }
-
-        Scanner inputScanner = new Scanner(new ByteArrayInputStream(commands.getBytes()));
-
-        Dictionary.setRandomSeed(1);
+        Dictionary.RANDOM.setSeed(1);
 
         //when
         ConsoleHangman.run(inputScanner);
